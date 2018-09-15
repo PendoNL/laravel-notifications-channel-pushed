@@ -5,6 +5,7 @@ namespace PendoNL\LaravelNotificationsChannelPushed;
 use Exception;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
+use PendoNL\LaravelNotificationsChannelPushed\Exceptions\CouldNotSendNotification;
 
 class Pushed
 {
@@ -50,8 +51,9 @@ class Pushed
     /**
      * Send request to Pushed API.
      *
-     * @param  array  $params
+     * @param  array $params
      * @return \Psr\Http\Message\ResponseInterface
+     * @throws Exception
      */
     public function send($params)
     {
@@ -63,9 +65,12 @@ class Pushed
                 ], $params)
             ]);
         } catch (ClientException $exception) {
-            dd($exception->getMessage());
+            $response = json_decode($exception->getResponse()->getBody()->getContents());
+            $error = $response->error;
+
+            throw CouldNotSendNotification::serviceRespondedWithAnError("[$error->type] $error->message");
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            throw CouldNotSendNotification::genericError($exception->getMessage());
         }
     }
 }

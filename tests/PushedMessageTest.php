@@ -52,19 +52,21 @@ class PushedMessageTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function message_can_be_targetted_to_user()
     {
-        $this->message->toUser('access-token');
+        $this->message->toUser('access-token', 'user-alias');
 
         $this->assertEquals(PushedMessage::TARGET_USER, $this->message->targetType);
         $this->assertEquals('access-token', $this->message->accessToken);
+        $this->assertEquals('user-alias', $this->message->targetAlias);
     }
 
     /** @test */
     public function message_can_be_targetted_to_pushed_id()
     {
-        $this->message->toPushedId('pushed-id');
+        $this->message->toPushedId('pushed-id', 'user-alias');
 
         $this->assertEquals(PushedMessage::TARGET_PUSHED_ID, $this->message->targetType);
         $this->assertEquals('pushed-id', $this->message->pushedId);
+        $this->assertEquals('user-alias', $this->message->targetAlias);
     }
 
     /** @test */
@@ -99,12 +101,13 @@ class PushedMessageTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function message_payload_for_user()
     {
-        $payload = $this->message->toUser('access-token')->payload();
+        $payload = $this->message->toUser('access-token', 'user-alias')->payload();
 
         $expected = [
             'content' => 'Hello',
             'content_type' => 'simple',
             'target_type' => PushedMessage::TARGET_USER,
+            'target_alias' => 'user-alias',
             'access_token' => 'access-token',
         ];
 
@@ -114,12 +117,13 @@ class PushedMessageTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function message_payload_for_pushed_id()
     {
-        $payload = $this->message->toPushedId('pushed-id')->payload();
+        $payload = $this->message->toPushedId('pushed-id', 'user-alias')->payload();
 
         $expected = [
             'content' => 'Hello',
             'content_type' => 'simple',
             'target_type' => PushedMessage::TARGET_PUSHED_ID,
+            'target_alias' => 'user-alias',
             'pushed_id' => 'pushed-id',
         ];
 

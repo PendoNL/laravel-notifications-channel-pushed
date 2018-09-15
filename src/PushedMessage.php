@@ -101,28 +101,32 @@ class PushedMessage
 
     /**
      * Send notification to a Pushed User
-     * @param $alias
      * @param $accessToken
+     * @param $alias
      * @return PushedMessage
      */
-    public function toUser($accessToken)
+    public function toUser($accessToken, $alias)
     {
         $this->targetType = self::TARGET_USER;
 
-         $this->accessToken = $accessToken;
+        $this->targetAlias = $alias;
+
+        $this->accessToken = $accessToken;
 
         return $this;
     }
 
     /**
      * Send notification to a User via Pushed ID
-     * @param $alias
      * @param $pushedId
+     * @param $alias
      * @return $this
      */
-    public function toPushedId($pushedId)
+    public function toPushedId($pushedId, $alias)
     {
         $this->targetType = self::TARGET_PUSHED_ID;
+
+        $this->targetAlias = $alias;
 
         $this->pushedId = $pushedId;
 
