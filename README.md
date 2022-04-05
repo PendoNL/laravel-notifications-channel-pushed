@@ -84,8 +84,8 @@ public function toPushed($notifiable)
 - `setUrl($url)`: (string) adds a URL action to the notification
 - `toApp()`: sends the notification to all users registered to your app
 - `toChannel($alias)`: (string) sends the notification to a given channel alias
-- `toUser($accessToken)`: (string) sends the notification to a user that registered to your app using OAuth
-- `toPushedId($pushedId)`: (string) sends the notification directly to a user's Pushed ID
+- `toUser($accessToken, $alias)`: (string) sends the notification to a user that registered to your app using OAuth
+- `toPushedId($pushedId, $alias)`: (string) sends the notification directly to a user's Pushed ID
 
 ## Testing
 
