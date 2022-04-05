@@ -17,6 +17,8 @@ class PushedChannel
     {
         $message = $notification->toPushed($notifiable);
 
-        $this->pushed->send($message->payload());
+        if ($message) {
+            $this->pushed->send($message->payload());
+        }
     }
 }
